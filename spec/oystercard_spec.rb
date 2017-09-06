@@ -1,5 +1,6 @@
-require 'OysterCard'
-require 'Station'
+require 'oystercard'
+require 'station'
+require 'journey_log'
 
 describe OysterCard do
   it 'CHECK OYSTER CARD BALANCE' do
@@ -22,7 +23,7 @@ describe OysterCard do
     kingscross = Station.new('kingscross')
     euston = Station.new('euston')
     subject.touch_in(kingscross)
-    expect { subject.touch_out(euston) }.to change { subject.balance }.by (-1)
+    expect { subject.touch_out(euston) }.to change { subject.balance }.by -1
   end
 
   it 'CHECK TOP UP DOES NOT EXCEED CARD LIMIT' do
@@ -64,33 +65,33 @@ describe OysterCard do
     expect(subject.in_journey).to eq false
   end
 
-  it 'CHECK JOURNEY HISTORY' do
-    expect(subject.journey.journey_history.empty?).to eq true
-  end
+  # it 'CHECK JOURNEY HISTORY' do
+  #   expect(subject.journey.journey_history.empty?).to eq true
+  # end
 
-  it 'CHECKS TOUCH IN AND OUT STORES ONE JOURNEY' do
-    subject.top_up(5)
-    kingscross = Station.new('kingscross')
-    euston = Station.new('euston')
-    subject.touch_in(kingscross.station_name)
-    subject.touch_out(euston.station_name)
-    expect(subject.journey.journey_history).to eq ([{ :journey_start => kingscross.station_name,  :journey_end => euston.station_name }])
-  end
+  # it 'CHECKS TOUCH IN AND OUT STORES ONE JOURNEY' do
+  #   subject.top_up(5)
+  #   kingscross = Station.new('kingscross')
+  #   euston = Station.new('euston')
+  #   subject.touch_in(kingscross.station_name)
+  #   subject.touch_out(euston.station_name)
+  #   expect(subject.journey.journey_history).to eq [{ journey_start: kingscross.station_name, journey_end: euston.station_name }]
+  # end
 
-  it 'CHECK JOURNEY HISTORY' do
-    kingscross = Station.new('kingscross')
-    euston = Station.new('euston')
-    subject.top_up(5)
-    subject.touch_in(kingscross.station_name)
-    subject.touch_out(euston.station_name)
-    expect(subject.journey.journey_history).to eq ([{ :journey_start => kingscross.station_name,  :journey_end => euston.station_name }])
-  end
+  # it 'CHECK JOURNEY HISTORY' do
+  #   kingscross = Station.new('kingscross')
+  #   euston = Station.new('euston')
+  #   subject.top_up(5)
+  #   subject.touch_in(kingscross.station_name)
+  #   subject.touch_out(euston.station_name)
+  #   expect(subject.journey.journey_history).to eq [{ journey_start: kingscross.station_name, journey_end: euston.station_name }]
+  # end
 
   context '**EDGE CASE**'
   it 'CHARGES PENALTY FARE FOR TOUCH OUT WITH NO TOUCH IN' do
     subject.top_up(5)
     station = Station.new('kingscross')
-    expect { subject.touch_out(station) }.to change { subject.balance }.by (-6)
+    expect { subject.touch_out(station) }.to change { subject.balance }.by -6
   end
 
   context '**EDGE CASE**'
@@ -98,6 +99,6 @@ describe OysterCard do
     subject.top_up(5)
     station = Station.new('kingscross')
     subject.touch_in(double)
-    expect { subject.touch_in(station) }.to change { subject.balance }.by (-6)
+    expect { subject.touch_in(station) }.to change { subject.balance }.by -6
   end
 end

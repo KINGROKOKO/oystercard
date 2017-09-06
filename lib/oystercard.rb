@@ -20,21 +20,17 @@ class OysterCard
   def touch_in(entry_station)
     raise 'BELOW LIMIT, TOP UP' if @balance < 1
     @entry_station = entry_station
-    self.in_journey ? @balance -= @@penalty_fare : @balance -= @@min_fare
+    @balance -= in_journey ? @@penalty_fare : @@min_fare
     journey.start_journey(@entry_station)
     @in_journey = true
   end
 
   def touch_out(exit_station)
     @exit_station = exit_station
-    self.in_journey ? @balance -= @@min_fare : @balance -= @@penalty_fare
+    @balance -= in_journey ? @@min_fare : @@penalty_fare
     @journey.journey_finish(@exit_station)
     @in_journey = false
   end
-
-  # def in_journey
-  #   @journey.entry_station != nil
-  # end
 
   private
 
