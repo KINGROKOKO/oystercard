@@ -68,8 +68,6 @@ describe OysterCard do
   end
 
   it 'CHECKS TOUCH IN AND OUT STORES ONE JOURNEY' do
-    # kingscross = double
-    # euston = double
     subject.top_up(5)
     kingscross = Station.new('kingscross')
     euston = Station.new('euston')

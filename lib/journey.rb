@@ -6,6 +6,7 @@ class Journey
 
   def initialize
     @journey_history = []
+    @journey = {:journey_start => nil, :journey_end => nil}
   end
 
   def journey_finish(entry_station,exit_station)
