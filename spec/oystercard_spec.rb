@@ -41,7 +41,7 @@ describe OysterCard do
     subject.top_up(5)
     subject.touch_in(kingscross)
     subject.touch_out(kingscross)
-    expect(subject.check).to eq false
+    expect(subject.in_journey).to eq false
   end
 
   it 'CHECKS CARD FOR INSUFFICIENT BALANCE' do
@@ -61,7 +61,7 @@ describe OysterCard do
     kingscross = Station.new('kingscross')
     subject.touch_in(kingscross)
     subject.touch_out(kingscross)
-    expect(subject.check).to eq false
+    expect(subject.in_journey).to eq false
   end
 
   it 'CHECK JOURNEY HISTORY' do
