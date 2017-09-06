@@ -19,9 +19,10 @@ describe OysterCard do
 
   it 'CHARGE CARD FARE AND DEDUCT AMOUNT' do
     subject.top_up(5)
-    station = Station.new('kingscross')
-    subject.touch_in(station)
-    expect { subject.touch_out(station) }.to change { subject.balance }.by (-1)
+    kingscross = Station.new('kingscross')
+    euston = Station.new('euston')
+    subject.touch_in(kingscross)
+    expect { subject.touch_out(euston) }.to change { subject.balance }.by (-1)
   end
 
   it 'CHECK TOP UP DOES NOT EXCEED CARD LIMIT' do
@@ -40,7 +41,7 @@ describe OysterCard do
     subject.top_up(5)
     subject.touch_in(kingscross)
     subject.touch_out(kingscross)
-    expect(subject.in_journey).to eq false
+    expect(subject.check).to eq false
   end
 
   it 'CHECKS CARD FOR INSUFFICIENT BALANCE' do
@@ -60,7 +61,7 @@ describe OysterCard do
     kingscross = Station.new('kingscross')
     subject.touch_in(kingscross)
     subject.touch_out(kingscross)
-    expect(subject.journey.entry_station).to eq nil
+    expect(subject.check).to eq false
   end
 
   it 'CHECK JOURNEY HISTORY' do

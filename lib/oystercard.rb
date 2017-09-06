@@ -1,7 +1,7 @@
 require 'journey'
 
 class OysterCard
-  attr_reader :balance, :entry_station, :journey, :in_journey
+  attr_reader :balance, :entry_station, :journey, :in_journey, :check
 
   CARD_LIMIT = 90
   @@min_fare = 1
@@ -20,15 +20,19 @@ class OysterCard
   def touch_in(entry_station)
     raise 'BELOW LIMIT, TOP UP' if @balance < 1
     @entry_station = entry_station
-    self.in_journey == true ? @balance -= @@penalty_fare : @balance -= @@min_fare
-    @in_journey = true
+    self.in_journey ? @balance -= @@penalty_fare : @balance -= @@min_fare
+    journey.start_journey(@entry_station)
   end
 
   def touch_out(exit_station)
     @exit_station = exit_station
-    self.in_journey == true ? @balance -= @@min_fare : @balance -= @@penalty_fare
-    @journey.journey_finish(@entry_station,@exit_station)
-    @in_journey = false
+    self.in_journey ? @balance -= @@min_fare : @balance -= @@penalty_fare
+    @journey.journey_finish(@exit_station)
+    @check = false
+  end
+
+  def in_journey
+    @journey.entry_station != nil
   end
 
   private

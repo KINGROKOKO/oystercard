@@ -9,12 +9,22 @@ class Journey
     @journey = {:journey_start => nil, :journey_end => nil}
   end
 
-  def journey_finish(entry_station,exit_station)
-    @entry_station = entry_station
+  def start_journey(entry_station)
+    @journey[:journey_start] = entry_station
+  end
+
+  def journey_finish(exit_station)
     @exit_station = exit_station
-    @journey = {:journey_start => @entry_station, :journey_end => @exit_station}
+    @journey[:journey_end] = exit_station
     @journey_history << @journey
-    @entry_station = nil
+  end
+
+  def entry_station
+    @journey[:journey_start]
+  end
+
+  def exit_station
+    @journey[:journey_end]
   end
 
   def in_journey(state=false)
